@@ -49,10 +49,17 @@ func _physics_process(_delta):
 	var s = sign(target - position.x)					# which direction to move
 	position.x += s*t
 
-	if HUD.paddle_stretch:
-		pass
+	if HUD.paddle_stretch: 
+		var w = 1 + (distort.x * p) 
+		var h = 1 - (1/distort.y * p) 
+		change_size(w,h) 
+		color.s = color_s * (1-p) 
+		update_color()
 
 
-func start_paddle():
-	if HUD.paddle_appear:
-		pass
+func start_paddle(): 
+	if HUD.paddle_appear: 
+		var target_pos = position 
+		position.y = -100 
+		$Tween.interpolate_property(self, "position", position, target_pos, fall_duration, Tween.TRANS_ELASTIC, Tween.EASE_IN_OUT) 
+		$Tween.start()
